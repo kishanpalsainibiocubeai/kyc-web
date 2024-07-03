@@ -16,7 +16,7 @@ code {
 /* Layout css */
 
 .layout-main-wrapper{
-  background-color: #fafafa;
+  background-color: var(--bg-secondary);
   min-height: 100vh;
   padding-left: 60px;
   padding-top: 84px;

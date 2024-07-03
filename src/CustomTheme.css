@@ -1,0 +1,16 @@
+
+:root {
+    --primary-color: #ec0000;
+    --secondary-color: #d1d1d1;
+    --take-action: #1664FF;
+    --bg-primary: #ffffff;
+    --bg-secondary: #FAFAFA;
+  }
+
+  h1,h2,h3,h4,h5,h6{
+    color: #02091A;
+  }
+
+  p{
+    color: #6E6E6E;
+  }

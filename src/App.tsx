@@ -14,6 +14,7 @@ import { Routes, Route } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import Dashboard from './pages/Dashboard';
 import Login from './pages/Login';
+import './CustomTheme.css'
 
 function App() {
   return (
@@ -28,7 +29,6 @@ function App() {
       <Box className='layout-main-footer-wrapper'>
       {/* <Footer /> */}
       </Box>
-
 
       <ToastContainer />
       <Routes>
