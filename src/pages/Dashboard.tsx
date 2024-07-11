@@ -132,7 +132,7 @@ const useStyles = makeStyles({
     backgroundColor: '#E3EDFF80',
     padding: '16px',
     // border: '0.4px soild #E3EDFF80',
-    // borderRadius: '4px, 4px, 0px, 0px',
+    // borderRadius: '4px, 4px, 0px,  0px',
     '& h4':{
       margin: '0px',
       color: '#5075C2',
