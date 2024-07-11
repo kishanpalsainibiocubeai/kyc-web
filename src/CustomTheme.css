@@ -3,12 +3,26 @@
     --primary-color: #ec0000;
     --secondary-color: #d1d1d1;
     --take-action: #1664FF;
+    --color-white: #ffffff;
     --bg-primary: #ffffff;
     --bg-secondary: #FAFAFA;
+    --darkBlue: #09142F;
+    --textGrey: #383434;
+
   }
 
   h1,h2,h3,h4,h5,h6{
     color: #02091A;
+  }
+
+  h1{
+    font-size: 28px;
+    font-weight: 800;
+  }
+
+  h2{
+    font-size: 24px !important;
+    font-weight: 600 !important;
   }
 
   p{
