@@ -187,7 +187,6 @@ function createData(
 
 const rows = [
   createData(`${process.env.PUBLIC_URL}/assets/icons/dashboard-service-face.svg`, "Face", 20, 8, 28),
-  createData(`${process.env.PUBLIC_URL}/assets/icons/dashboard-service-face.svg`, "Face", 20, 8, 28),
   createData(`${process.env.PUBLIC_URL}/assets/icons/dashboard-service-id-card.svg`, "ID Card", 15, 2, 17),
 ];
 

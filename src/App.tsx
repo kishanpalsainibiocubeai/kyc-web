@@ -17,13 +17,15 @@ import Login from './pages/Login';
 import './CustomTheme.css'
 import Signup from './pages/Signup'
 import { useLocation } from 'react-router-dom';
+import Applicants from './pages/Applicants';
 
 function App() {
   const [showSidebarTopbar, setShowSidebarTopbar] = useState(false)
   const location = useLocation();
 
   const fullPageUrls = {
-    'login': 'login'
+    'login': 'login',
+    'signup':'signup'
   }
 
   useEffect(() => {
@@ -57,6 +59,8 @@ function App() {
           <Route path="/" element={<Dashboard />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
+          <Route path="/applicants" element={<Applicants />} />
+          
           {/* <Route path="/clinic-branch" element={<ClinicBranch />} />
         <Route path="/doctors" element={<Doctors />} />
         <Route path="/patients" element={<Patients />} />

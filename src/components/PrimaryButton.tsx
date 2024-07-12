@@ -21,13 +21,19 @@ interface PrimaryButtonProps {
   btnText: string;
   handleAction: () => void;
   btnWidth?: btnWidthFixed;
+  btnIcon?: string;
 }
 
 const PrimaryButton = (props: PrimaryButtonProps) => {
   const classes = useStyles();
   return (
     <Box className={classes.btnWrapper}>
-      <button style={{width: `${props.btnWidth === 'full'? '100%' : 'auto'}`}}>{props.btnText}</button>
+      
+      <button
+        style={{ width: `${props.btnWidth === "full" ? "100%" : "auto"}`, display: 'flex', alignItems: 'center', gap: '4px', cursor: 'pointer' }}
+      >
+       {props.btnIcon ? (<img src={props.btnIcon} alt="" />) : ''} {props.btnText}
+      </button>
     </Box>
   );
 };

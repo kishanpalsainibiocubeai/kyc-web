@@ -30,7 +30,7 @@ const Sidebar = () => {
                 </Link>
             </li>
             <li>
-                <Link  to="/dashboard">
+                <Link  to="/applicants">
                 <img src={process.env.PUBLIC_URL + "/assets/icons/users-icon.svg"} alt="" />
                 </Link>
             </li>
