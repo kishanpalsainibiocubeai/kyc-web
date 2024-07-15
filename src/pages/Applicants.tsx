@@ -1,83 +1,78 @@
-import React, {useState, useMemo} from 'react'
-import { Avatar, Box } from '@mui/material'
+import React, { useState, useMemo } from "react";
+import { Avatar, Box } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import Select from "react-select";
-import { styled, alpha } from '@mui/material/styles';
-import InputBase from '@mui/material/InputBase';
-import SearchIcon from '@mui/icons-material/Search';
-import PrimaryButton from '../components/PrimaryButton';
+import { styled, alpha } from "@mui/material/styles";
+import InputBase from "@mui/material/InputBase";
+import SearchIcon from "@mui/icons-material/Search";
+import PrimaryButton from "../components/PrimaryButton";
 import Grid from "@mui/material/Grid";
 
+import Table from "@mui/material/Table";
+import TableBody from "@mui/material/TableBody";
+import TableContainer from "@mui/material/TableContainer";
+import TableHead from "@mui/material/TableHead";
+import TableRow from "@mui/material/TableRow";
+import Checkbox from "@mui/material/Checkbox";
+import TableCell, { tableCellClasses } from "@mui/material/TableCell";
+import { Clock, EllipsisVertical, SquareUserRound } from "lucide-react";
 
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TablePagination from '@mui/material/TablePagination';
-import TableRow from '@mui/material/TableRow';
-import TableSortLabel from '@mui/material/TableSortLabel';
-import Toolbar from '@mui/material/Toolbar';
-import Typography from '@mui/material/Typography';
-import Paper from '@mui/material/Paper';
-import Checkbox from '@mui/material/Checkbox';
-import IconButton from '@mui/material/IconButton';
-import Tooltip from '@mui/material/Tooltip';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Switch from '@mui/material/Switch';
-import DeleteIcon from '@mui/icons-material/Delete';
-import FilterListIcon from '@mui/icons-material/FilterList';
-import { visuallyHidden } from '@mui/utils';
-import TableCell, { tableCellClasses } from '@mui/material/TableCell';
-import { Clock, EllipsisVertical, SquareUserRound } from 'lucide-react';
-import { IdentificationIcon  } from '@heroicons/react/24/solid'
+import Pagination from "@mui/material/Pagination";
+import Stack from "@mui/material/Stack";
 
-import Pagination from '@mui/material/Pagination';
-import Stack from '@mui/material/Stack';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
+
+import Button from '@mui/material/Button';
+import NewApplicant from "./NewApplicant";
 
 
-const Search = styled('div')(({ theme }) => ({
-    position: 'relative',
-    borderRadius: theme.shape.borderRadius,
-    backgroundColor: alpha(theme.palette.common.white, 0.15),
-    '&:hover': {
-      backgroundColor: alpha(theme.palette.common.white, 0.25),
-    },
-    marginLeft: 0,
-    width: '100%',
-    [theme.breakpoints.up('sm')]: {
-      marginLeft: theme.spacing(1),
-      width: 'auto',
-    },
-  }));
-  
-  const SearchIconWrapper = styled('div')(({ theme }) => ({
-    padding: theme.spacing(0, 2),
-    height: '100%',
-    position: 'absolute',
-    pointerEvents: 'none',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    color: '#4281FF',
-  }));
-  
-  const StyledInputBase = styled(InputBase)(({ theme }) => ({
-    color: 'inherit',
-    width: '100%',
-    '& .MuiInputBase-input': {
-        color: '#4281FF',
-      padding: theme.spacing(1, 1, 1, 0),
-      // vertical padding + font size from searchIcon
-      paddingLeft: `calc(1em + ${theme.spacing(4)})`,
-      transition: theme.transitions.create('width'),
-      [theme.breakpoints.up('sm')]: {
-        width: '12ch',
-        '&:focus': {
-          width: '20ch',
-        },
+const Search = styled("div")(({ theme }) => ({
+  position: "relative",
+  borderRadius: theme.shape.borderRadius,
+  backgroundColor: alpha(theme.palette.common.white, 0.15),
+  "&:hover": {
+    backgroundColor: alpha(theme.palette.common.white, 0.25),
+  },
+  marginLeft: 0,
+  width: "100%",
+  [theme.breakpoints.up("sm")]: {
+    marginLeft: theme.spacing(1),
+    width: "auto",
+  },
+}));
+
+const SearchIconWrapper = styled("div")(({ theme }) => ({
+  padding: theme.spacing(0, 2),
+  height: "100%",
+  position: "absolute",
+  pointerEvents: "none",
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+  color: "#4281FF",
+}));
+
+const StyledInputBase = styled(InputBase)(({ theme }) => ({
+  color: "inherit",
+  width: "100%",
+  "& .MuiInputBase-input": {
+    color: "#4281FF",
+    padding: theme.spacing(1, 1, 1, 0),
+    // vertical padding + font size from searchIcon
+    paddingLeft: `calc(1em + ${theme.spacing(4)})`,
+    transition: theme.transitions.create("width"),
+    [theme.breakpoints.up("sm")]: {
+      width: "12ch",
+      "&:focus": {
+        width: "20ch",
       },
     },
-  }));
+  },
+}));
 
 const useStyles = makeStyles({
   applicantsWrapper: {
@@ -93,7 +88,7 @@ const useStyles = makeStyles({
   },
   filtersWrapper: {
     display: "flex",
-    paddingLeft: '18px',
+    paddingLeft: "18px",
     gap: "20px",
     "& b": {
       color: "#000000",
@@ -126,14 +121,14 @@ const useStyles = makeStyles({
     display: "flex",
     gap: "20px",
     alignItems: "center",
-    justifyContent: 'flex-end',
+    justifyContent: "flex-end",
   },
   btnWrapper: {},
   tableWrapper: {
     paddingTop: "16px",
     "& thead > tr": {
       border: "1px solid #D9D9D9",
-    //   borderRadius: "4px",
+      //   borderRadius: "4px",
     },
   },
   tableRow: {
@@ -158,110 +153,124 @@ const useStyles = makeStyles({
     border: "1px solid #F1F1F1",
     color: "#000000 !important",
     fontSize: "12px !important",
-    width: '28px !important',
-    height: '28px !important',
+    width: "28px !important",
+    height: "28px !important",
   },
-  paginationAvatarActive:{
+  paginationAvatarActive: {
     backgroundColor: "#DFDFDF !important",
     fontWeight: 600,
   },
-  requiredDocumentWrapper:{
-        display: 'flex',
-        alignItems: 'center',
-        gap: '10px',
-        marginBottom: '5px',
-    '& .id-card':{
-        width: '28px',
-        // height: '28px',
-    }
-  }
+  requiredDocumentWrapper: {
+    display: "flex",
+    alignItems: "center",
+    gap: "10px",
+    marginBottom: "5px",
+    "& .id-card": {
+      width: "28px",
+      // height: '28px',
+    },
+  },
 });
 
 interface IFiltersType {
-    readonly value: string;
-    readonly label: string;
-    readonly isFixed?: boolean;
-    readonly isDisabled?: boolean;
-  }
-  
-  const periodFilterStaticOptions: readonly IFiltersType[] = [
-    { value: "all-time", label: "All Time" },
-    // { value: "verified", label: "Verified" },
-    // { value: "in-progress", label: "In Progress" },
-    // { value: "reviewed", label: "Reviewed" },
-    // { value: "pending", label: "Pending" },
-  ];
-  
-  const documentTypeFilterStaticOptions: readonly IFiltersType[] = [
-    { value: "all", label: "All" },
-  ];
-  
-  const countryFilterStaticOptions: readonly IFiltersType[] = [
-    { value: "all", label: "All" },
-  ];
+  readonly value: string;
+  readonly label: string;
+  readonly isFixed?: boolean;
+  readonly isDisabled?: boolean;
+}
 
-  const statusFilterStaticOptions: readonly IFiltersType[] = [
-    { value: "all", label: "All" },
-  ];
+const periodFilterStaticOptions: readonly IFiltersType[] = [
+  { value: "all-time", label: "All Time" },
+  // { value: "verified", label: "Verified" },
+  // { value: "in-progress", label: "In Progress" },
+  // { value: "reviewed", label: "Reviewed" },
+  // { value: "pending", label: "Pending" },
+];
 
-  const handleNewApplicant = () => {
+const documentTypeFilterStaticOptions: readonly IFiltersType[] = [
+  { value: "all", label: "All" },
+];
 
-  }
-  
+const countryFilterStaticOptions: readonly IFiltersType[] = [
+  { value: "all", label: "All" },
+];
+
+const statusFilterStaticOptions: readonly IFiltersType[] = [
+  { value: "all", label: "All" },
+];
+
+
 interface Data {
-    id: number;
-    name: string;
-    status: number;
-    requiredDocument: number;
-    action: string;
-  }
-  
-  function createData(
-    id: number,
-    name: string,
-    requiredDocument: number,
-    status: number,
-    action: string,
-  ): Data {
-    return {
-      id,
-      name,
-      requiredDocument,
-      status,
-      action
-    };
-  }
+  id: number;
+  name: string;
+  status: number;
+  requiredDocument: number;
+  action: string;
+}
+
+function createData(
+  id: number,
+  name: string,
+  requiredDocument: number,
+  status: number,
+  action: string
+): Data {
+  return {
+    id,
+    name,
+    requiredDocument,
+    status,
+    action,
+  };
+}
 
 const rows = [
-    createData(1, 'Cupcake', 305, 3.7, 'open',),
-    createData(2, 'Donut', 452, 25.0, 'open',),
-    createData(3, 'Eclair', 262, 16.0, 'open',),
-    createData(4, 'Frozen yoghurt', 159, 6.0, 'open',),
-    createData(5, 'Gingerbread', 356, 16.0, 'open',),
-    createData(6, 'Honeycomb', 408, 3.2, 'open',),
-  ];
-
-
+  createData(1, "Cupcake", 305, 3.7, "open"),
+  createData(2, "Donut", 452, 25.0, "open"),
+  createData(3, "Eclair", 262, 16.0, "open"),
+  createData(4, "Frozen yoghurt", 159, 6.0, "open"),
+  createData(5, "Gingerbread", 356, 16.0, "open"),
+  createData(6, "Honeycomb", 408, 3.2, "open"),
+];
 
 const Applicants = () => {
-    const classes = useStyles();
-    const [periodFilter, setPeriodFilter] = useState([...periodFilterStaticOptions])
-    const [documentTypeFilter, setDocumentTypeFilter] = useState([...documentTypeFilterStaticOptions])
-    const [countryFilter, setcountryFilter] = useState([...countryFilterStaticOptions])
-    const [statusFilter, setstatusFilter] = useState([...statusFilterStaticOptions])
-
+  const classes = useStyles();
+  const [periodFilter, setPeriodFilter] = useState([
+    ...periodFilterStaticOptions,
+  ]);
+  const [documentTypeFilter, setDocumentTypeFilter] = useState([
+    ...documentTypeFilterStaticOptions,
+  ]);
+  const [countryFilter, setcountryFilter] = useState([
+    ...countryFilterStaticOptions,
+  ]);
+  const [statusFilter, setstatusFilter] = useState([
+    ...statusFilterStaticOptions,
+  ]);
 
   const [selected, setSelected] = React.useState<readonly number[]>([]);
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
+  const [applicantDialog, setApplicantDialog] = React.useState(false);
 
+  const handleApplicantDialogOpen = () => {
+    setApplicantDialog(true);
+  };
+
+  const handleApplicantDialogClose = () => {
+    setApplicantDialog(false);
+  };
+
+  const handleNewApplicant = () => {
+    setApplicantDialog(true);
+  };
 
   const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
-      backgroundColor: '#f7f7f7',
-      color: '#000',
-      fontWeight: 600,    
-      padding: '5px',
+      backgroundColor: "#f7f7f7",
+      color: "#000",
+      fontWeight: 600,
+      padding: "5px",
     },
     [`&.${tableCellClasses.body}`]: {
       fontSize: 14,
@@ -281,7 +290,7 @@ const Applicants = () => {
     } else if (selectedIndex > 0) {
       newSelected = newSelected.concat(
         selected.slice(0, selectedIndex),
-        selected.slice(selectedIndex + 1),
+        selected.slice(selectedIndex + 1)
       );
     }
     setSelected(newSelected);
@@ -291,11 +300,12 @@ const Applicants = () => {
     setPage(newPage);
   };
 
-  const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChangeRowsPerPage = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
   };
-
 
   const isSelected = (id: number) => selected.indexOf(id) !== -1;
 
@@ -306,73 +316,73 @@ const Applicants = () => {
   return (
     <Box className={classes.applicantsWrapper}>
       {/* <Box className={classes.filtersAndSearchWrapper}> */}
-        
+
       <Grid container spacing={2}>
         <Grid item md={7} sm={12} style={{ paddingLeft: "0px" }}>
-        <Box className={classes.filtersWrapper}>
-          <Box sx={{ display: "flex", gap: "5px", alignItems: "center" }}>
-            <b>Period:</b>
-            <Select
-              className="basic-single"
-              classNamePrefix="select"
-              defaultValue={periodFilter[0]}
-              name="color"
-              options={periodFilter}
-            />
+          <Box className={classes.filtersWrapper}>
+            <Box sx={{ display: "flex", gap: "5px", alignItems: "center" }}>
+              <b>Period:</b>
+              <Select
+                className="basic-single"
+                classNamePrefix="select"
+                defaultValue={periodFilter[0]}
+                name="color"
+                options={periodFilter}
+              />
+            </Box>
+            <Box sx={{ display: "flex", gap: "5px", alignItems: "center" }}>
+              <b>Document type:</b>
+              <Select
+                className="basic-single"
+                classNamePrefix="select"
+                defaultValue={documentTypeFilter[0]}
+                name="color"
+                options={documentTypeFilter}
+              />
+            </Box>
+            <Box sx={{ display: "flex", gap: "5px", alignItems: "center" }}>
+              <b>Country:</b>
+              <Select
+                className="basic-single"
+                classNamePrefix="select"
+                defaultValue={countryFilter[0]}
+                name="color"
+                options={countryFilter}
+              />
+            </Box>
+            <Box sx={{ display: "flex", gap: "5px", alignItems: "center" }}>
+              <b>Status:</b>
+              <Select
+                className="basic-single"
+                classNamePrefix="select"
+                defaultValue={statusFilter[0]}
+                name="color"
+                options={statusFilter}
+              />
+            </Box>
           </Box>
-          <Box sx={{ display: "flex", gap: "5px", alignItems: "center" }}>
-            <b>Document type:</b>
-            <Select
-              className="basic-single"
-              classNamePrefix="select"
-              defaultValue={documentTypeFilter[0]}
-              name="color"
-              options={documentTypeFilter}
-            />
-          </Box>
-          <Box sx={{ display: "flex", gap: "5px", alignItems: "center" }}>
-            <b>Country:</b>
-            <Select
-              className="basic-single"
-              classNamePrefix="select"
-              defaultValue={countryFilter[0]}
-              name="color"
-              options={countryFilter}
-            />
-          </Box>
-          <Box sx={{ display: "flex", gap: "5px", alignItems: "center" }}>
-            <b>Status:</b>
-            <Select
-              className="basic-single"
-              classNamePrefix="select"
-              defaultValue={statusFilter[0]}
-              name="color"
-              options={statusFilter}
-            />
-          </Box>
-        </Box>
         </Grid>
         <Grid item md={5} sm={12} style={{ paddingLeft: "0px" }}>
-        <Box className={classes.searchWrapper}>
-          <Search>
-            <SearchIconWrapper>
-              <SearchIcon />
-            </SearchIconWrapper>
-            <StyledInputBase
-              placeholder="Search…"
-              inputProps={{ "aria-label": "search" }}
-            />
-          </Search>
-          <Box className={classes.btnWrapper}>
-            <PrimaryButton
-              btnText="New applicant"
-              handleAction={handleNewApplicant}
-              btnIcon={`${process.env.PUBLIC_URL + "/assets/icons/plus.svg"}`}
-            />
+          <Box className={classes.searchWrapper}>
+            <Search>
+              <SearchIconWrapper>
+                <SearchIcon />
+              </SearchIconWrapper>
+              <StyledInputBase
+                placeholder="Search…"
+                inputProps={{ "aria-label": "search" }}
+              />
+            </Search>
+            <Box className={classes.btnWrapper}>
+              <PrimaryButton
+                btnText="New applicant"
+                handleAction={handleNewApplicant}
+                btnIcon={`${process.env.PUBLIC_URL + "/assets/icons/plus.svg"}`}
+              />
+            </Box>
           </Box>
-        </Box>
         </Grid>
-        </Grid>
+      </Grid>
       {/* </Box> */}
 
       <Box className={classes.tableWrapper}>
@@ -420,7 +430,10 @@ const Applicants = () => {
                       sx={{ cursor: "pointer" }}
                       className={classes.tableRow}
                     >
-                      <TableCell padding="checkbox" sx={{verticalAlign: 'top',  paddingTop: '8px'}}>
+                      <TableCell
+                        padding="checkbox"
+                        sx={{ verticalAlign: "top", paddingTop: "8px" }}
+                      >
                         <Checkbox
                           color="primary"
                           checked={isItemSelected}
@@ -539,22 +552,67 @@ const Applicants = () => {
           /> */}
 
           <Box className={classes.paginationWrap}>
-            
-    <Stack direction="row" spacing={2} sx={{alignItems: 'center'}}>
-        <b style={{fontSize: '14px', fontWeight: 600, color: '#09142F'}}>Show</b>
-      <Avatar className={`${classes.paginationAvatar} ${classes.paginationAvatarActive}`}>5</Avatar>
-      <Avatar className={classes.paginationAvatar}>10</Avatar>
-      <Avatar className={classes.paginationAvatar}>20</Avatar>
-    </Stack>
-    
+            <Stack direction="row" spacing={2} sx={{ alignItems: "center" }}>
+              <b
+                style={{ fontSize: "14px", fontWeight: 600, color: "#09142F" }}
+              >
+                Show
+              </b>
+              <Avatar
+                className={`${classes.paginationAvatar} ${classes.paginationAvatarActive}`}
+              >
+                5
+              </Avatar>
+              <Avatar className={classes.paginationAvatar}>10</Avatar>
+              <Avatar className={classes.paginationAvatar}>20</Avatar>
+            </Stack>
+
             <Stack spacing={2}>
-              <Pagination count={8} variant="outlined" color='primary' style={{color:'#1664FF'}} />
+              <Pagination
+                count={8}
+                variant="outlined"
+                color="primary"
+                style={{ color: "#1664FF" }}
+              />
             </Stack>
           </Box>
         </Box>
       </Box>
+
+
+      
+      <Dialog
+        open={applicantDialog}
+        // onClose={handleApplicantDialogClose}
+        maxWidth='md'
+        style={{width: '707px', margin: 'auto'}}
+        // PaperProps={{
+        //   component: 'form',
+        //   onSubmit: (event: React.FormEvent<HTMLFormElement>) => {
+        //     event.preventDefault();
+        //     const formData = new FormData(event.currentTarget);
+        //     const formJson = Object.fromEntries((formData as any).entries());
+        //     const email = formJson.email;
+        //     console.log(email);
+        //     handleApplicantDialogClose();
+        //   },
+        // }}
+      >
+        {/* <DialogTitle>Subscribe</DialogTitle> */}
+        <DialogContent>
+          {/* <DialogContentText>
+            To subscribe to this website, please enter your email address here. We
+            will send updates occasionally.
+          </DialogContentText> */}
+          <NewApplicant handleClose={handleApplicantDialogClose} />
+        </DialogContent>
+        {/* <DialogActions>
+          <Button onClick={handleApplicantDialogClose}>Cancel</Button>
+          <Button type="submit">Subscribe</Button>
+        </DialogActions> */}
+      </Dialog>
     </Box>
   );
-}
+};
 
-export default Applicants
+export default Applicants;

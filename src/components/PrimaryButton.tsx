@@ -4,14 +4,14 @@ import { makeStyles } from "@mui/styles";
 
 const useStyles = makeStyles({
   btnWrapper: {
-    "& button": {
+    // "& button": {
       backgroundColor: "var(--take-action)",
       color: "var(--color-white)",
       border: "none",
       padding: "10px 15px",
       borderRadius: "34px",
       fontWeight: 600,
-    },
+    // },
   },
 });
 
@@ -27,14 +27,16 @@ interface PrimaryButtonProps {
 const PrimaryButton = (props: PrimaryButtonProps) => {
   const classes = useStyles();
   return (
-    <Box className={classes.btnWrapper}>
+    <>
       
       <button
         style={{ width: `${props.btnWidth === "full" ? "100%" : "auto"}`, display: 'flex', alignItems: 'center', gap: '4px', cursor: 'pointer' }}
+        onClick={props.handleAction}
+        className={classes.btnWrapper}
       >
        {props.btnIcon ? (<img src={props.btnIcon} alt="" />) : ''} {props.btnText}
       </button>
-    </Box>
+    </>
   );
 };
 
