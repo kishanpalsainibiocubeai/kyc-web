@@ -25,6 +25,8 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
+import useMediaQuery from '@mui/material/useMediaQuery';
+import { useTheme } from '@mui/material/styles';
 
 import Button from '@mui/material/Button';
 import NewApplicant from "./NewApplicant";
@@ -170,6 +172,11 @@ const useStyles = makeStyles({
       // height: '28px',
     },
   },
+  dialogWrapper:{
+    maxWidth: '100%',
+    '& .MuiDialog-root':{
+    }
+  }
 });
 
 interface IFiltersType {
@@ -252,6 +259,10 @@ const Applicants = () => {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
   const [applicantDialog, setApplicantDialog] = React.useState(false);
+  const [kycFlowTabPosition, setKycFlowTabPosition] = useState(0)
+  const theme = useTheme();
+  const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
+  console.log("fullScreen :", fullScreen)
 
   const handleApplicantDialogOpen = () => {
     setApplicantDialog(true);
@@ -264,6 +275,11 @@ const Applicants = () => {
   const handleNewApplicant = () => {
     setApplicantDialog(true);
   };
+
+  const handleKycFlowTabPosition = (val:number) => {
+    setKycFlowTabPosition(val)
+  }
+
 
   const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
@@ -586,6 +602,8 @@ const Applicants = () => {
         // onClose={handleApplicantDialogClose}
         maxWidth='md'
         style={{width: '707px', margin: 'auto'}}
+        fullScreen={fullScreen}
+        className={classes.dialogWrapper}
         // PaperProps={{
         //   component: 'form',
         //   onSubmit: (event: React.FormEvent<HTMLFormElement>) => {
@@ -604,7 +622,11 @@ const Applicants = () => {
             To subscribe to this website, please enter your email address here. We
             will send updates occasionally.
           </DialogContentText> */}
-          <NewApplicant handleClose={handleApplicantDialogClose} />
+          <NewApplicant
+          kycFlowTabPosition={kycFlowTabPosition}
+          handleKycFlowTabPosition={handleKycFlowTabPosition}
+        handleClose={handleApplicantDialogClose}
+         />
         </DialogContent>
         {/* <DialogActions>
           <Button onClick={handleApplicantDialogClose}>Cancel</Button>
