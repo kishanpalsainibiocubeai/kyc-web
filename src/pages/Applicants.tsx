@@ -30,7 +30,13 @@ import { useTheme } from '@mui/material/styles';
 
 import Button from '@mui/material/Button';
 import NewApplicant from "./NewApplicant";
+import KycProcessMobile from "../components/KycProcessMobile";
 
+
+const enumKycSelected = {
+  basic: "basic",
+  detailed: "detailed",
+};
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -176,6 +182,11 @@ const useStyles = makeStyles({
     maxWidth: '100%',
     '& .MuiDialog-root':{
     }
+  },
+  kycFlowDialog:{
+    "@media (max-width:600px)": {
+      padding: '10px !important',
+    }
   }
 });
 
@@ -262,7 +273,7 @@ const Applicants = () => {
   const [kycFlowTabPosition, setKycFlowTabPosition] = useState(0)
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
-  console.log("fullScreen :", fullScreen)
+  const [selectedKycFlow, setSelectedKycFlow] = useState('')
 
   const handleApplicantDialogOpen = () => {
     setApplicantDialog(true);
@@ -278,6 +289,10 @@ const Applicants = () => {
 
   const handleKycFlowTabPosition = (val:number) => {
     setKycFlowTabPosition(val)
+  }
+
+  const hanldeSelectedKycFlow = (flow:string) => {
+    setSelectedKycFlow(flow)
   }
 
 
@@ -595,13 +610,11 @@ const Applicants = () => {
         </Box>
       </Box>
 
-
-      
       <Dialog
         open={applicantDialog}
         // onClose={handleApplicantDialogClose}
-        maxWidth='md'
-        style={{width: '707px', margin: 'auto'}}
+        maxWidth="md"
+        style={{ width: "707px", margin: "auto" }}
         fullScreen={fullScreen}
         className={classes.dialogWrapper}
         // PaperProps={{
@@ -617,16 +630,18 @@ const Applicants = () => {
         // }}
       >
         {/* <DialogTitle>Subscribe</DialogTitle> */}
-        <DialogContent>
+        <DialogContent className={classes.kycFlowDialog}>
           {/* <DialogContentText>
             To subscribe to this website, please enter your email address here. We
             will send updates occasionally.
           </DialogContentText> */}
-          <NewApplicant
-          kycFlowTabPosition={kycFlowTabPosition}
-          handleKycFlowTabPosition={handleKycFlowTabPosition}
-        handleClose={handleApplicantDialogClose}
-         />
+          {/* <NewApplicant
+            kycFlowTabPosition={kycFlowTabPosition}
+            handleKycFlowTabPosition={handleKycFlowTabPosition}
+            handleClose={handleApplicantDialogClose}
+            selectedKycFlow={hanldeSelectedKycFlow}
+          /> */}
+          <KycProcessMobile />
         </DialogContent>
         {/* <DialogActions>
           <Button onClick={handleApplicantDialogClose}>Cancel</Button>

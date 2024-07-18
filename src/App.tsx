@@ -18,10 +18,15 @@ import './CustomTheme.css'
 import Signup from './pages/Signup'
 import { useLocation } from 'react-router-dom';
 import Applicants from './pages/Applicants';
+import useMediaQuery from '@mui/material/useMediaQuery';
+import { useTheme } from '@mui/material/styles';
+import TopbarMobile from './components/TopbarMobile';
 
 function App() {
   const [showSidebarTopbar, setShowSidebarTopbar] = useState(false)
   const location = useLocation();
+  const theme = useTheme();
+  const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
 
   const fullPageUrls = {
     'login': 'login',
@@ -43,9 +48,11 @@ function App() {
         {showSidebarTopbar && (
           <>
             <Box className="layout-main-topbar-wrapper">
-              <Topbar />
+              {
+                fullScreen ? <TopbarMobile /> : <Topbar />
+              }
             </Box>
-            <Box className="layout-main-sidebar-wrapper">
+            <Box className="layout-main-sidebar-wrapper" sx={{display: ['none', 'block']}}>
               <Sidebar />
             </Box>
           </>

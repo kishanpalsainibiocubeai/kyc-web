@@ -85,3 +85,10 @@ code {
   z-index: 3;
 }
 }
+
+
+@media(max-width: 600px){
+  .layout-main-wrapper{
+    padding-left: 0px;
+  }
+}

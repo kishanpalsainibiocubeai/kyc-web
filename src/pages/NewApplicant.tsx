@@ -25,6 +25,8 @@ import zIndex from "@mui/material/styles/zIndex";
 import WebcamCapture from "../components/WebcamCapture";
 import InputWithLabel from "../components/InputWithLabel";
 import { Link } from "react-router-dom";
+import useMediaQuery from '@mui/material/useMediaQuery';
+import { useTheme } from '@mui/material/styles';
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -101,6 +103,19 @@ const useStyles = makeStyles({
       },
     },
   },
+  kycNeedBtn:{
+    '&.MuiButtonBase-root':{
+      display: 'none',
+      "@media (max-width:600px)": {
+      display: 'block',
+        color: "#1664FF",
+        fontSize: "16px",
+        fontWeight: 600,
+        textTransform: "capitalize",
+        margin: 'auto',
+      }
+    }
+  },
   flowHeadingWrapper: {
     "& h2": {
       fontSize: "24px",
@@ -109,7 +124,7 @@ const useStyles = makeStyles({
       marginBottom: "0px",
       marginTop: "10px",
     "@media (max-width:600px)": {
-      fontSize: "20px",
+      fontSize: "20px !important",
     },
     },
     "& p": {
@@ -125,14 +140,70 @@ const useStyles = makeStyles({
   docScanHeadingWrapper:{
     '& h2':{
       fontSize: "14px !important",
+      position: 'relative',
+      zIndex: 2,
+      "@media (max-width:600px)": {
+        display: 'flex',
+      justifyContent: 'space-between',
+      },
+    },
+    "@media (max-width:600px)": {
+      paddingTop: '20px',
+      '& h2::after':{
+        content: "'Document back'",
+        color: '#6C6C6C',
+        opacity: '1',
+      },
+      '& h2::before':{
+        content: "' '",
+        position: 'absolute',
+        left: '113px',
+        right: '115px',
+        top: '10px',
+        border: '1px dashed #6C6C6C',
+        zindex: '0',
+      },
+      '&::before':{
+        content: "' '",
+        border: '8px solid #F6F8FF',
+        position: 'absolute',
+        left: '0px',
+        right: '0px',
+        top: '50px',
+      }
     },
     '& p':{
       fontWeight: 400,
       color: '#000000',
+      "@media (max-width:600px)": { 
+        color: '#6C6C6C',
+        fontSize: '12px',
+      }
+    },
+  },
+  removeBeforeAfterProfile:{
+    "@media (max-width:600px)": {
+      paddingTop: '20px',
+      '& h2::after':{
+        // content: " ",
+        display: 'none'
+      },
+      '& h2::before':{
+        // content: "' '",
+        display: 'none'
+      },
+      '&::before':{
+        content: "' '",
+        border: '8px solid #F6F8FF',
+        position: 'absolute',
+        left: '0px',
+        right: '0px',
+        top: '50px',
+      }
     },
   },
   imgWrapper: {
-    width: '100%'
+    width: '100%',
   },
   barcodeWrapper: {
     padding: "16px",
@@ -165,7 +236,26 @@ const useStyles = makeStyles({
     "& button": {
       textTransform: "capitalize",
       fontWeight: 600,
+      textAlign: 'center',
+      justifyContent: 'center',
+  // kycNeedBtn:{
+  //   '&.MuiButtonBase-root':{
+  //     display: 'none',
+  //     "@media (max-width:600px)": {
+  //     display: 'block',
+  //       color: "#1664FF",
+  //       fontSize: "16px",
+  //       fontWeight: 600,
+  //       textTransform: "capitalize",
+  //       margin: 'auto',
+  //     }
+  //   }
+  // },
     },
+    "@media (max-width:600px)": {
+      flexDirection: 'column-reverse',
+    }
+    
   },
   divider: {
     fontSize: "14px",
@@ -199,6 +289,12 @@ const useStyles = makeStyles({
       fontSize: "12px !important",
       color: "#343434 !important",
     },
+    "@media (max-width:600px)": {
+      flexDirection: 'column !important',
+      '& > label':{
+        borderBottom: '1px solid #e6e6e6',
+      }
+    }
   },
   selectWrapper: {
     "& label": {
@@ -206,6 +302,9 @@ const useStyles = makeStyles({
       fontSize: "14px",
       marginBottom: "6px",
       display: "inline-block",
+      "@media (max-width:600px)": {
+        display: 'none',
+      }
     },
   },
   flowStepper: {
@@ -220,6 +319,22 @@ const useStyles = makeStyles({
       height: "2px",
       right: "-35px",
     //   zIndex: 1,
+    },
+    "@media (max-width:600px)": {
+      position: 'fixed',
+      top: '0px',
+      left: '0px',
+      right: '0px',
+      display: 'flex',
+      justifyContent: 'flex-end',
+      paddingRight: '30px',
+      backgroundColor:'#fff',
+      padding: '8px',
+      "& .stepLine":{
+        borderRadius: '50%',
+        width: '32px',
+        height: '32px',
+      },
     },
   },
   imgCaptureWrapper:{
@@ -247,6 +362,7 @@ interface NewApplicantProps {
   handleClose: () => void;
   kycFlowTabPosition: number;
   handleKycFlowTabPosition: (val: number) => void;
+  selectedKycFlow: (flow:string) => void;
 }
 
 interface ICountryType {
@@ -276,6 +392,8 @@ const NewApplicant = (props: NewApplicantProps) => {
   ]);
   const [captureImage, setCaptureImage] = useState('')
   const childRef:any = useRef();
+  const theme = useTheme();
+  const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
 
   //   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
   //     setValue(newValue);
@@ -321,6 +439,11 @@ const NewApplicant = (props: NewApplicantProps) => {
 
   const handleFirstNameChange = () => {
 
+  }
+
+  const handleChooseKycFlow = (kycFlow:string) => {
+    props.selectedKycFlow(kycFlow)
+    setKycSelected(kycFlow)
   }
 
   return (
@@ -376,7 +499,7 @@ const NewApplicant = (props: NewApplicantProps) => {
                     }`,
                   }}
                   className={classes.selectKYCWrapper}
-                  onClick={() => setKycSelected(enumKycSelected.basic)}
+                  onClick={() => handleChooseKycFlow(enumKycSelected.basic)}
                 >
                   <Box>
                     <h4>Basic-level-Kyc</h4>
@@ -410,7 +533,7 @@ const NewApplicant = (props: NewApplicantProps) => {
                     }`,
                   }}
                   className={classes.selectKYCWrapper}
-                  onClick={() => setKycSelected(enumKycSelected.detailed)}
+                  onClick={() => handleChooseKycFlow(enumKycSelected.detailed)}
                 >
                   <Box>
                     <h4>Detailed-level-Kyc</h4>
@@ -581,7 +704,7 @@ const NewApplicant = (props: NewApplicantProps) => {
       </CustomTabPanel>
       <CustomTabPanel value={props.kycFlowTabPosition} index={2}>
         <Grid container>
-          <Grid item md={3} sm={12} sx={{width: '100%'}}>
+          <Grid item md={3} sm={12} sx={{width: '100%',  pt: [4, 0] }}>
             <Box className={`${classes.kycNeedHelpBox} ${classes.docIdentity}`}>
               <Box className={`${classes.imgWrapper}`}>
                 <img
@@ -602,7 +725,7 @@ const NewApplicant = (props: NewApplicantProps) => {
               <Box className={classes.flowStepper}>
                 <Stack direction="row" spacing={1}>
                   <Chip
-                    label="Document"
+                    label={`${fullScreen ? 1 : "Document"}`}
                     onClick={handleClick}
                     // icon={<DoneIcon />}
                     variant="outlined"
@@ -611,7 +734,7 @@ const NewApplicant = (props: NewApplicantProps) => {
                     className="stepLine"
                   />
                   <Chip
-                    label="Photo"
+                    label={`${fullScreen ? 2 : "Photo"}`}
                     onClick={handleClick}
                     // icon={<DoneIcon />}
                     sx={{
@@ -639,7 +762,7 @@ const NewApplicant = (props: NewApplicantProps) => {
                 />
               </Box>
 
-              <FormControl sx={{ mt: 4 }}>
+              <FormControl sx={{ mt: 4, width: ['100%', 'auto'] }}>
                 <FormLabel
                   id="demo-row-radio-buttons-group-label"
                   className={classes.selectDocRadio}
@@ -695,15 +818,17 @@ const NewApplicant = (props: NewApplicantProps) => {
               </FormControl>
 
               <Box className={classes.kycFlowBtnWrapper}>
-                <Button variant="text" onClick={props.handleClose}>
+                <Button sx={{ display: ['none', 'block']}} variant="text" onClick={props.handleClose}>
                   Cancel
                 </Button>
                 <PrimaryButton
                   btnText={"Continue"}
                   handleAction={() => handleChooseDevice(3)}
+                  btnWidth={fullScreen ? 'full' : 'auto'}
                   //   btnWidth='auto'
                 />
               </Box>
+              <Button className={classes.kycNeedBtn} variant="text">Need Help?</Button>
             </Box>
           </Grid>
         </Grid>
@@ -736,11 +861,11 @@ const NewApplicant = (props: NewApplicantProps) => {
             </Box>
           </Grid>
           <Grid item md={9} sm={12}>
-            <Box sx={{ px: 4 }}>
+            <Box sx={{ px: [1, 4], pt: [4, 0] }}>
               <Box className={classes.flowStepper}>
                 <Stack direction="row" spacing={1}>
                   <Chip
-                    label="Document"
+                    label={`${fullScreen ? 1 : "Document"}`}
                     onClick={handleClick}
                     // icon={<DoneIcon />}
                     variant="outlined"
@@ -749,7 +874,7 @@ const NewApplicant = (props: NewApplicantProps) => {
                     className="stepLine"
                   />
                   <Chip
-                    label="Photo"
+                    label={`${fullScreen ? 2 : "Photo"}`}
                     onClick={handleClick}
                     // icon={<DoneIcon />}
                     sx={{
@@ -764,7 +889,7 @@ const NewApplicant = (props: NewApplicantProps) => {
               <Box
                 className={`${classes.flowHeadingWrapper} ${classes.docScanHeadingWrapper}`}
               >
-                <h2>Document front side</h2>
+                <h2>Document front {`${fullScreen ? '' : "side"}`}</h2>
                 <p>Please ensure the photo remains visible within the frame.</p>
               </Box>
 
@@ -861,11 +986,11 @@ const NewApplicant = (props: NewApplicantProps) => {
             </Box>
           </Grid>
           <Grid item md={9} sm={12}>
-            <Box sx={{ px: 4 }}>
+            <Box sx={{ px: [1, 4], pt: [4, 0]  }}>
               <Box className={classes.flowStepper}>
                 <Stack direction="row" spacing={1}>
                   <Chip
-                    label="Document"
+                    label={`${fullScreen ? 1 : "Document"}`}
                     onClick={handleClick}
                     // icon={<DoneIcon />}
                     variant="outlined"
@@ -874,7 +999,7 @@ const NewApplicant = (props: NewApplicantProps) => {
                     className="stepLine"
                   />
                   <Chip
-                    label="Photo"
+                    label={`${fullScreen ? 2 : "Photo"}`}
                     onClick={handleClick}
                     // icon={<DoneIcon />}
                     sx={{
@@ -889,7 +1014,7 @@ const NewApplicant = (props: NewApplicantProps) => {
               <Box
                 className={`${classes.flowHeadingWrapper} ${classes.docScanHeadingWrapper}`}
               >
-                <h2>Document back side</h2>
+                <h2>Document {`${fullScreen ? 'front' : "back side"}`}</h2>
                 <p>Please ensure the photo remains visible within the frame.</p>
               </Box>
 
@@ -929,8 +1054,8 @@ const NewApplicant = (props: NewApplicantProps) => {
       </CustomTabPanel>
       <CustomTabPanel value={props.kycFlowTabPosition} index={5}>
         <Grid container>
-          <Grid item md={3} sm={12}>
-            <Box className={classes.kycNeedHelpBox}>
+          <Grid item md={3} sm={12} sx={{width: '100%',  pt: [4, 0] }}>
+            <Box className={`${classes.kycNeedHelpBox} ${classes.docIdentity}`}>
               <Box className={`${classes.imgWrapper}`}>
                 <img
                   className="img-fluid"
@@ -946,11 +1071,11 @@ const NewApplicant = (props: NewApplicantProps) => {
             </Box>
           </Grid>
           <Grid item md={9} sm={12}>
-            <Box sx={{ px: 4 }}>
+            <Box sx={{px: [1, 4], pt: [0, 0]}}>
               <Box className={classes.flowStepper}>
                 <Stack direction="row" spacing={1}>
                   <Chip
-                    label="Document"
+                    label={`${fullScreen ? 1 : "Document"}`}
                     onClick={handleClick}
                     icon={
                       <svg
@@ -962,6 +1087,7 @@ const NewApplicant = (props: NewApplicantProps) => {
                           width: "16px",
                           color: "#fff",
                           verticalAlign: "sub",
+                          display: `${fullScreen ? "none" : "block"}`,
                         }}
                       >
                         <path
@@ -981,7 +1107,7 @@ const NewApplicant = (props: NewApplicantProps) => {
                     className="stepLine"
                   />
                   <Chip
-                    label="Photo"
+                    label={`${fullScreen ? 2 : "Photo"}`}
                     onClick={handleClick}
                     // icon={<DoneIcon />}
                     sx={{
@@ -1026,7 +1152,7 @@ const NewApplicant = (props: NewApplicantProps) => {
               </Box>
 
               <Box className={classes.kycFlowBtnWrapper}>
-                <Button variant="text" onClick={props.handleClose}>
+                <Button sx={{display: `${fullScreen ? "none" : "block"}`}} variant="text" onClick={props.handleClose}>
                   Cancel
                 </Button>
                 <PrimaryButton
@@ -1058,11 +1184,11 @@ const NewApplicant = (props: NewApplicantProps) => {
             </Box>
           </Grid>
           <Grid item md={9} sm={12}>
-            <Box sx={{ px: 4 }}>
+            <Box sx={{ px: [1, 4], pt: [4, 0]  }}>
               <Box className={classes.flowStepper}>
                 <Stack direction="row" spacing={1}>
                   <Chip
-                    label="Document"
+                    label={`${fullScreen ? 1 : "Document"}`}
                     onClick={handleClick}
                     icon={
                       <svg
@@ -1074,6 +1200,7 @@ const NewApplicant = (props: NewApplicantProps) => {
                           width: "16px",
                           color: "#fff",
                           verticalAlign: "sub",
+                          display: `${fullScreen ? "none" : "block"}`,
                         }}
                       >
                         <path
@@ -1093,7 +1220,7 @@ const NewApplicant = (props: NewApplicantProps) => {
                     className="stepLine"
                   />
                   <Chip
-                    label="Photo"
+                    label={`${fullScreen ? 2 : "Photo"}`}
                     onClick={handleClick}
                     // icon={<DoneIcon />}
                     sx={{
@@ -1104,11 +1231,11 @@ const NewApplicant = (props: NewApplicantProps) => {
                   />
                 </Stack>
               </Box>
-
+              
               <Box
-                className={`${classes.flowHeadingWrapper} ${classes.docScanHeadingWrapper}`}
+                className={`${classes.flowHeadingWrapper} ${classes.docScanHeadingWrapper} ${classes.removeBeforeAfterProfile}`}
               >
-                <h2>Photo</h2>
+                <h2>Photo  {`${fullScreen ? '(Selfie)' : ""}`}</h2>
                 <p>Please ensure the photo clearly visible within the frame.</p>
               </Box>
 
@@ -1148,8 +1275,8 @@ const NewApplicant = (props: NewApplicantProps) => {
       </CustomTabPanel>
       <CustomTabPanel value={props.kycFlowTabPosition} index={7}>
         <Grid container>
-          <Grid item md={3} sm={12}>
-            <Box className={classes.kycNeedHelpBox}>
+          <Grid item md={3} sm={12} sx={{width: '100%',  pt: [4, 0] }}>
+            <Box className={`${classes.kycNeedHelpBox} ${classes.docIdentity}`}>
               <Box className={`${classes.imgWrapper}`}>
                 <img
                   className="img-fluid"
@@ -1164,11 +1291,11 @@ const NewApplicant = (props: NewApplicantProps) => {
             </Box>
           </Grid>
           <Grid item md={9} sm={12}>
-            <Box sx={{ px: 4 }}>
+            <Box sx={{px: [1, 4], pt: [0, 0] }}>
               <Box className={classes.flowStepper}>
                 <Stack direction="row" spacing={1}>
                   <Chip
-                    label="Document"
+                    label={`${fullScreen ? 1 : "Document"}`}
                     onClick={handleClick}
                     icon={
                       <svg
@@ -1180,6 +1307,7 @@ const NewApplicant = (props: NewApplicantProps) => {
                           width: "16px",
                           color: "#fff",
                           verticalAlign: "sub",
+                          display: `${fullScreen ? "none" : "block"}`,
                         }}
                       >
                         <path
@@ -1199,7 +1327,7 @@ const NewApplicant = (props: NewApplicantProps) => {
                     className="stepLine"
                   />
                   <Chip
-                    label="Photo"
+                    label={`${fullScreen ? 2 : "Photo"}`}
                     onClick={handleClick}
                     icon={
                       <svg
@@ -1211,6 +1339,7 @@ const NewApplicant = (props: NewApplicantProps) => {
                           width: "16px",
                           color: "#fff",
                           verticalAlign: "sub",
+                          display: `${fullScreen ? "none" : "block"}`,
                         }}
                       >
                         <path
