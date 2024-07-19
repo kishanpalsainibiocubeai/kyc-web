@@ -18,6 +18,7 @@ import './CustomTheme.css'
 import Signup from './pages/Signup'
 import { useLocation } from 'react-router-dom';
 import Applicants from './pages/Applicants';
+import Report from './pages/Report';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/material/styles';
 import TopbarMobile from './components/TopbarMobile';
@@ -67,9 +68,10 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/applicants" element={<Applicants />} />
+          <Route path="/report" element={<Report />} />
           
           {/* <Route path="/clinic-branch" element={<ClinicBranch />} />
-        <Route path="/doctors" element={<Doctors />} />
+        <Route path="/doctors" element={<Doctors />} /> 
         <Route path="/patients" element={<Patients />} />
         <Route path="/appointments" element={<Appointments />} /> */}
         </Routes>

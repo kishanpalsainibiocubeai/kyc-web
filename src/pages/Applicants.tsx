@@ -635,13 +635,13 @@ const Applicants = () => {
             To subscribe to this website, please enter your email address here. We
             will send updates occasionally.
           </DialogContentText> */}
-          {/* <NewApplicant
+          <NewApplicant
             kycFlowTabPosition={kycFlowTabPosition}
             handleKycFlowTabPosition={handleKycFlowTabPosition}
             handleClose={handleApplicantDialogClose}
             selectedKycFlow={hanldeSelectedKycFlow}
-          /> */}
-          <KycProcessMobile />
+          />
+          {/* <KycProcessMobile handleClose={handleApplicantDialogClose} /> */}
         </DialogContent>
         {/* <DialogActions>
           <Button onClick={handleApplicantDialogClose}>Cancel</Button>

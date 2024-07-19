@@ -1369,7 +1369,7 @@ const NewApplicant = (props: NewApplicantProps) => {
                 <p>Your verification results are pending approval.</p>
                 <p>
                   You can view the report{" "}
-                  <Link style={{ color: "#1664FF" }} to="#">
+                  <Link style={{ color: "#1664FF" }} to="/report">
                     here
                   </Link>
                 </p>
