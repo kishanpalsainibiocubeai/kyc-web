@@ -8,6 +8,8 @@ import StepLabel from '@mui/material/StepLabel';
 import StepContent from '@mui/material/StepContent';
 import Typography from '@mui/material/Typography';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
+import LinearProgress, { linearProgressClasses } from '@mui/material/LinearProgress';
+import { styled } from '@mui/material/styles';
 
 
 const useStyles = makeStyles({
@@ -49,6 +51,31 @@ const useStyles = makeStyles({
       backgroundColor: '#F2F2F2',
       boxShadow: '1px 0px 0px 0px #E8E8E8',
       height: '100%',
+      '& .MuiStepConnector-line':{
+        borderLeftWidth: '2px',
+      },
+      '& .Mui-active':{
+        color: '#1664FF !important',
+        fontWeight: '600 !important',
+        
+      '& svg':{
+        '& text':{
+          fill: '#fff !important'
+        }
+      }
+      },
+      '& .MuiStepLabel-label':{
+        color: '#3E3E3E',
+        fontWeight: '500',
+      },
+      '& svg':{
+        color: '#E3E3E3',
+        '& text':{
+          fill: '#465679',
+          fontWeight: 500,
+          fontSize: '13px',
+        }
+      }
     },
     profileContainer:{
       padding: '15px',
@@ -59,6 +86,7 @@ const useStyles = makeStyles({
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'space-between',
+      flexWrap: 'wrap',
       '&>div':{
         display: 'flex',
         alignItems: 'center',
@@ -101,6 +129,7 @@ const useStyles = makeStyles({
       display: 'flex',
       marginTop: '12px',
       gap: '12px',
+      flexWrap: 'wrap-reverse'
     },
     userDetailWrapper:{
       padding: '15px',
@@ -125,6 +154,7 @@ const useStyles = makeStyles({
       alignItems: 'center',
       gap: '15px',
       color: '#6C6C6C',
+      flexWrap: 'wrap',
       '& b':{
         fontSize: '14px',
         fontWeight: 600,
@@ -158,6 +188,9 @@ const useStyles = makeStyles({
         width: '15px',
         color: '#000000',
         marginRight: '5px',
+      },
+      '& > div':{
+      flexWrap: 'wrap',
       }
     },
     userPhoto:{
@@ -185,6 +218,9 @@ const useStyles = makeStyles({
       boxShadow: '0px 1px 0px 0px #E2E7F1',
       padding: '18px',
       borderRadius: '8px',
+      '& h3':{
+        marginTop: '0px',
+      }
     },
     docVerificationWrapper:{
       
@@ -198,6 +234,89 @@ const useStyles = makeStyles({
     },
     extractedPersonalInfo:{
       marginTop: '15px',
+    },
+    extractedInfoValues:{
+      '& p':{
+        fontSize: '14px',
+        fontWeight: 500,
+        color: '#6C6C6C',
+        marginBottom: '6px',
+      },
+      '& span':{
+        fontSize: '14px',
+        fontWeight: 500,
+        color: '#1B1B1C',
+      }
+    },
+    extractedInfoCol:{
+      borderRight: '1px solid #cccccc',
+      paddingLeft: '15px',
+    },
+    personalInfoDoc:{
+      borderTop: '1px solid #cccccc',
+      paddingTop: '15px',
+      marginTop: '15px',
+      '& .MuiGrid-root':{
+        gap: '20px',
+      }
+    },
+    personalDocsWrapper:{
+
+      '& h3':{
+        fontSize: '18px',
+        fontWeight: 600,
+        color: '#1B1B1C',
+        margin: '10px 0px',
+      },
+      '& p':{
+        fontSize: '15px',
+        fontWeight: 500,
+        color: '#1B1B1C',
+        margin: '0px'
+      }
+    },
+    personalInfoDocImage:{
+      backgroundColor: '#EFF1F5',
+      padding: '15px',
+    },
+    personalDocsName:{
+      display:'flex',
+      alignItems: 'center',
+      justifyContent: 'space-between',
+      '& svg':{
+        width: '15px',
+        color: '#6C6C6C',
+      }
+    },
+    vedioRecordingWrapper:{
+      marginTop: '15px',
+    },
+    vedioWrapper:{
+
+    },
+    vediosContainer:{
+      paddingLeft: '10px',
+      display: 'flex',
+      flexWrap: 'wrap',
+      gap: '4px',
+      '& .img-fluid':{
+        verticalAlign: 'middle',
+      },
+      '& > div':{
+        width: '32%',
+      }
+    },
+    faceMatchScore:{
+      marginTop: '15px',
+    },
+    faceScoreID:{
+      '& img':{
+        width: '100%',
+        verticalAlign: 'middle',
+      }
+    },
+    faceScoreBarWrapper:{
+      marginBottom: '15px',
     }
 })
 
@@ -236,6 +355,16 @@ const docvarificationOptions= [
 ]
 
 
+const BorderLinearProgress = styled(LinearProgress)(({ theme }) => ({
+  height: 25,
+  [`&.${linearProgressClasses.colorPrimary}`]: {
+    backgroundColor: theme.palette.grey[theme.palette.mode === 'light' ? 200 : 800],
+  },
+  [`& .${linearProgressClasses.bar}`]: {
+    backgroundColor: theme.palette.mode === 'light' ? '#F85563' : '#D9D9D9',
+  },
+}));
+
 const Report = () => {
     const classes = useStyles();
     const [activeStep, setActiveStep] = React.useState(0);
@@ -254,12 +383,14 @@ const Report = () => {
         alert("Failed to copy text");
       }
     };
+    
+
   
   return (
     <Box className={classes.reportWrapper}>
       <Box className={classes.reportTopbar}>
         <Grid container>
-          <Grid item md={4} sm={12}>
+          <Grid item md={4} xs={12}>
             <Box sx={{ display: "flex", alignItems: "center", gap: "10px" }}>
               <Box>
                 <img
@@ -275,7 +406,7 @@ const Report = () => {
           <Grid
             item
             md={8}
-            sm={12}
+            xs={12}
             sx={{
               display: "flex",
               justifyContent: "flex-end",
@@ -301,24 +432,18 @@ const Report = () => {
       </Box>
       <Box>
         <Grid container>
-          <Grid item md={3} sm={12}>
-            <Box className={classes.stepperWrapper}>
+          <Grid item md={3} xs={12}>
+            <Box className={classes.stepperWrapper} sx={{pl: [1,4], pt: [2,7]}}>
               <Stepper activeStep={activeStep} orientation="vertical">
                 {steps.map((step, index) => (
                   <Step key={step.label}>
-                    <StepLabel
-                      optional={
-                        index === 2 ? (
-                          <Typography variant="caption">Last step</Typography>
-                        ) : null
-                      }
-                    >
+                    <StepLabel>
                       {step.label}
                     </StepLabel>
-                    <StepContent>
-                      {/* <Typography>{step.description}</Typography> */}
+                    {/* <StepContent>
+                      <Typography>{step.description}</Typography>
                       <Box sx={{ mb: 2 }}>
-                        {/* <div>
+                        <div>
                   <Button
                     variant="contained"
                     onClick={handleNext}
@@ -333,15 +458,15 @@ const Report = () => {
                   >
                     Back
                   </Button>
-                </div> */}
+                </div>
                       </Box>
-                    </StepContent>
+                    </StepContent> */}
                   </Step>
                 ))}
               </Stepper>
             </Box>
           </Grid>
-          <Grid item md={9} sm={12}>
+          <Grid item md={9} xs={12}>
             <Box className={classes.profileContainer}>
               <Box
                 className={`${classes.reportStatus} ${classes.reportBoxBorder}`}
@@ -499,54 +624,359 @@ const Report = () => {
                 className={`${classes.docVerificationWrapper} ${classes.reportCard}`}
               >
                 <h3>Document Verifucation</h3>
-              <Grid container>
-                {
-                  docVerificationOptions.map((item) => (
-                    <Grid item md={4} sm={12}>
-                      <Box sx={{display: 'flex', gap: '8px', alignItems: 'center', marginBottom: '12px'}}> 
-                      
-                      {
-                        item.error ? (<svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          viewBox="0 0 24 24"
-                          fill="currentColor"
-                          className="size-6"
-                          style={{color: '#F85563', width :'18px'}}
-                        >
-                          <path
-                            fillRule="evenodd"
-                            d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25Zm-1.72 6.97a.75.75 0 1 0-1.06 1.06L10.94 12l-1.72 1.72a.75.75 0 1 0 1.06 1.06L12 13.06l1.72 1.72a.75.75 0 1 0 1.06-1.06L13.06 12l1.72-1.72a.75.75 0 1 0-1.06-1.06L12 10.94l-1.72-1.72Z"
-                            clipRule="evenodd"
-                          />
-                        </svg>) : (
-                          <svg style={{color: '#2EA76D', width :'18px'}} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="size-6">
-                          <path fillRule="evenodd" d="M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12Zm13.36-1.814a.75.75 0 1 0-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 0 0-1.06 1.06l2.25 2.25a.75.75 0 0 0 1.14-.094l3.75-5.25Z" clipRule="evenodd" />
-                         </svg>
-                        )
-                      }
-                        
-                        
-                       
-                        <span>{item.label}</span> 
-                        </Box>
+                <Grid container>
+                  {docVerificationOptions.map((item) => (
+                    <Grid item md={4} xs={12}>
+                      <Box
+                        sx={{
+                          display: "flex",
+                          gap: "8px",
+                          alignItems: "center",
+                          marginBottom: "12px",
+                        }}
+                      >
+                        {item.error ? (
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 24 24"
+                            fill="currentColor"
+                            className="size-6"
+                            style={{ color: "#F85563", width: "18px" }}
+                          >
+                            <path
+                              fillRule="evenodd"
+                              d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25Zm-1.72 6.97a.75.75 0 1 0-1.06 1.06L10.94 12l-1.72 1.72a.75.75 0 1 0 1.06 1.06L12 13.06l1.72 1.72a.75.75 0 1 0 1.06-1.06L13.06 12l1.72-1.72a.75.75 0 1 0-1.06-1.06L12 10.94l-1.72-1.72Z"
+                              clipRule="evenodd"
+                            />
+                          </svg>
+                        ) : (
+                          <svg
+                            style={{ color: "#2EA76D", width: "18px" }}
+                            xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 24 24"
+                            fill="currentColor"
+                            className="size-6"
+                          >
+                            <path
+                              fillRule="evenodd"
+                              d="M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12Zm13.36-1.814a.75.75 0 1 0-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 0 0-1.06 1.06l2.25 2.25a.75.75 0 0 0 1.14-.094l3.75-5.25Z"
+                              clipRule="evenodd"
+                            />
+                          </svg>
+                        )}
+
+                        <span>{item.label}</span>
+                      </Box>
                     </Grid>
-                  ))
-                }
-              </Grid>
-              
+                  ))}
+                </Grid>
               </Box>
 
-
-                <Box className={`${classes.reportCard} ${classes.extractedPersonalInfo}`}>
-                
+              <Box
+                className={`${classes.reportCard} ${classes.extractedPersonalInfo}`}
+              >
                 <h3>Extracted Personal Information</h3>
-                </Box>
 
+                <Grid container>
+                  <Grid
+                    item
+                    md={3}
+                    xs={12}
+                    className={classes.extractedInfoCol}
+                  >
+                    <Box className={classes.extractedInfoValues}>
+                      <p>First name</p>
+                      <span>Andrew</span>
+                    </Box>
+                    <Box className={classes.extractedInfoValues}>
+                      <p>Middle name</p>
+                      <span>-</span>
+                    </Box>
+                    <Box className={classes.extractedInfoValues}>
+                      <p>Last name</p>
+                      <span>Smith</span>
+                    </Box>
+                  </Grid>
+                  <Grid
+                    item
+                    md={3}
+                    xs={12}
+                    className={classes.extractedInfoCol}
+                  >
+                    <Box className={classes.extractedInfoValues}>
+                      <p>Date of birth</p>
+                      <span>1992-12-12 (31 y)</span>
+                    </Box>
+                    <Box className={classes.extractedInfoValues}>
+                      <p>Country</p>
+                      <span>India</span>
+                    </Box>
+                    <Box className={classes.extractedInfoValues}>
+                      <p>Country of Birth</p>
+                      <span>India</span>
+                    </Box>
+                  </Grid>
+                  <Grid
+                    item
+                    md={3}
+                    xs={12}
+                    className={classes.extractedInfoCol}
+                  >
+                    <Box className={classes.extractedInfoValues}>
+                      <p>State of birth</p>
+                      <span>Anderson</span>
+                    </Box>
+                    <Box className={classes.extractedInfoValues}>
+                      <p>Place of birth</p>
+                      <span>-</span>
+                    </Box>
+                    <Box className={classes.extractedInfoValues}>
+                      <p>Phone</p>
+                      <span>-</span>
+                    </Box>
+                  </Grid>
+
+                  <Grid
+                    item
+                    md={3}
+                    xs={12}
+                    className={classes.extractedInfoCol}
+                    sx={{ border: "none" }}
+                  >
+                    <Box className={classes.extractedInfoValues}>
+                      <p>SSN</p>
+                      <span>-</span>
+                    </Box>
+                    <Box className={classes.extractedInfoValues}>
+                      <p>Gender</p>
+                      <span>-</span>
+                    </Box>
+                    <Box className={classes.extractedInfoValues}>
+                      <p>Nationality</p>
+                      <span>Indian</span>
+                    </Box>
+                  </Grid>
+                </Grid>
+
+                <Box className={classes.personalInfoDoc}>
+                  <Grid container>
+                    <Grid item md={4} xs={12}>
+                      <Box className={classes.personalDocsWrapper}>
+                        <Box className={`${classes.personalInfoDocImage}`}>
+                          <img
+                            className="img-fluid"
+                            src={
+                              process.env.PUBLIC_URL +
+                              "/assets/images/personal-info-doc-front.svg"
+                            }
+                            alt=""
+                          />
+                        </Box>
+                        <Box className={classes.personalDocsName}>
+                          <h3>Document Front</h3>
+                          <Expand />
+                        </Box>
+                        <p>
+                          Live picture taken from Macbook 28-06-2024 06:06:03
+                          (UST+08:00)
+                        </p>
+                      </Box>
+                    </Grid>
+
+                    <Grid item md={4} xs={12}>
+                      <Box className={classes.personalDocsWrapper}>
+                        <Box className={`${classes.personalInfoDocImage}`}>
+                          <img
+                            className="img-fluid"
+                            src={
+                              process.env.PUBLIC_URL +
+                              "/assets/images/personal-info-doc-back.svg"
+                            }
+                            alt=""
+                          />
+                        </Box>
+                        <Box className={classes.personalDocsName}>
+                          <h3>Document Back</h3>
+                          <Expand />
+                        </Box>
+                        <p>
+                          Live picture taken from Macbook 28-06-2024 06:06:03
+                          (UST+08:00)
+                        </p>
+                      </Box>
+                    </Grid>
+
+                    <Grid item md={3} xs={12}>
+                      <Box>
+                        <img
+                          className="img-fluid"
+                          src={
+                            process.env.PUBLIC_URL +
+                            "/assets/images/report-profile.svg"
+                          }
+                          alt=""
+                        />
+                      </Box>
+                    </Grid>
+                  </Grid>
+                </Box>
+              </Box>
+
+              <Box
+                className={`${classes.reportCard} ${classes.vedioRecordingWrapper}`}
+              >
+                <h3>Video recording</h3>
+
+                <Grid container sx={{ justifyContent: "space-between" }}>
+                  <Grid item md={6} xs={12}>
+                    <Box className={classes.vedioWrapper}>
+                      <iframe
+                        width="480"
+                        height="300"
+                        style={{ maxWidth: "100%" }}
+                        src="https://www.youtube.com/embed/MfCHOSL5PgI"
+                        title="3 Steps for KYC Verification Process - Meeting KYC &amp; AML Compliance Obligations"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                      ></iframe>
+                    </Box>
+                  </Grid>
+
+                  <Grid item md={6} xs={12}>
+                    <Box className={classes.vediosContainer}>
+                      <Box>
+                        <img
+                          className="img-fluid"
+                          src={
+                            process.env.PUBLIC_URL +
+                            "/assets/images/report-demo-vedio-img.svg"
+                          }
+                          alt=""
+                        />
+                      </Box>
+                      <Box>
+                        <img
+                          className="img-fluid"
+                          src={
+                            process.env.PUBLIC_URL +
+                            "/assets/images/report-demo-vedio-img.svg"
+                          }
+                          alt=""
+                        />
+                      </Box>
+                      <Box>
+                        <img
+                          className="img-fluid"
+                          src={
+                            process.env.PUBLIC_URL +
+                            "/assets/images/report-demo-vedio-img.svg"
+                          }
+                          alt=""
+                        />
+                      </Box>
+                      <Box>
+                        <img
+                          className="img-fluid"
+                          src={
+                            process.env.PUBLIC_URL +
+                            "/assets/images/report-demo-vedio-img.svg"
+                          }
+                          alt=""
+                        />
+                      </Box>
+                      <Box>
+                        <img
+                          className="img-fluid"
+                          src={
+                            process.env.PUBLIC_URL +
+                            "/assets/images/report-demo-vedio-img.svg"
+                          }
+                          alt=""
+                        />
+                      </Box>
+                      <Box>
+                        <img
+                          className="img-fluid"
+                          src={
+                            process.env.PUBLIC_URL +
+                            "/assets/images/report-demo-vedio-img.svg"
+                          }
+                          alt=""
+                        />
+                      </Box>
+                      <Box>
+                        <img
+                          className="img-fluid"
+                          src={
+                            process.env.PUBLIC_URL +
+                            "/assets/images/report-demo-vedio-img.svg"
+                          }
+                          alt=""
+                        />
+                      </Box>
+                      <Box>
+                        <img
+                          className="img-fluid"
+                          src={
+                            process.env.PUBLIC_URL +
+                            "/assets/images/report-demo-vedio-img.svg"
+                          }
+                          alt=""
+                        />
+                      </Box>
+                      <Box>
+                        <img
+                          className="img-fluid"
+                          src={
+                            process.env.PUBLIC_URL +
+                            "/assets/images/report-demo-vedio-img.svg"
+                          }
+                          alt=""
+                        />
+                      </Box>
+                    </Box>
+                  </Grid>
+                </Grid>
+              </Box>
+
+              <Box
+                className={`${classes.reportCard} ${classes.faceMatchScore}`}
+              >
+                <h3 style={{marginBottom: '15px'}}>Face match score</h3>
+                  <Box className={classes.faceScoreBarWrapper}>
+      <BorderLinearProgress variant="determinate" value={10} />
+                  </Box>
+                <Grid container>
+                  <Grid item md={6} xs={12} sx={{pr: 2}}>
+                    <Box className={`${classes.personalInfoDocImage} ${classes.faceScoreID}`}>
+                      <img
+                        className="img-fluid"
+                        src={
+                          process.env.PUBLIC_URL +
+                          "/assets/images/personal-info-doc-front.svg"
+                        }
+                        alt=""
+                      />
+                    </Box>
+                  </Grid>
+
+                  <Grid item md={6} xs={12}>
+                    <Box>
+                      <img
+                        className="img-fluid"
+                        src={
+                          process.env.PUBLIC_URL +
+                          "/assets/images/report-face-score.svg"
+                        }
+                        alt=""
+                      />
+                    </Box>
+                  </Grid>
+                </Grid>
+              </Box>
             </Box>
           </Grid>
         </Grid>
       </Box>
-
     </Box>
   );
 }

@@ -41,6 +41,7 @@ const useStyles = makeStyles({
       color: "#09142F",
       fontSize: "16px",
       fontWeight: 500,
+      // lineHeight: '20px',
     },
   },
   headerRight: {

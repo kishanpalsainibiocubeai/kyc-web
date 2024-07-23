@@ -30,7 +30,7 @@ const PrimaryButton = (props: PrimaryButtonProps) => {
     <>
       
       <button
-        style={{ width: `${props.btnWidth === "full" ? "100%" : "auto"}`, display: 'flex', alignItems: 'center', gap: '4px', cursor: 'pointer' }}
+        style={{ width: `${props.btnWidth === "full" ? "100%" : "auto"}`, display: 'flex', alignItems: 'center', gap: '4px', cursor: 'pointer', justifyContent: 'center' }}
         onClick={props.handleAction}
         className={classes.btnWrapper}
       >
