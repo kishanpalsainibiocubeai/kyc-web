@@ -31,6 +31,7 @@ import { useTheme } from '@mui/material/styles';
 import Button from '@mui/material/Button';
 import NewApplicant from "./NewApplicant";
 import KycProcessMobile from "../components/KycProcessMobile";
+import MoreVertIcon from '@mui/icons-material/MoreVert';
 
 
 const enumKycSelected = {
@@ -98,6 +99,7 @@ const useStyles = makeStyles({
     display: "flex",
     paddingLeft: "18px",
     gap: "20px",
+    flexWrap: 'wrap',
     "& b": {
       color: "#000000",
       fontSize: "16px",
@@ -187,6 +189,37 @@ const useStyles = makeStyles({
     "@media (max-width:600px)": {
       padding: '10px !important',
     }
+  },
+  tableCard:{
+    padding :'15px',
+    marginBottom: '15px',
+    backgroundColor: '#fff',
+    borderRadius: '4px',
+    boxShadow: '0px 2px 1px -1px rgba(0, 0, 0, 0.2), 0px 1px 1px 0px rgba(0, 0, 0, 0.14), 0px 1px 3px 0px rgba(0, 0, 0, 0.12)',
+    '& h5':{
+      color: "#09142F",
+      fontWeight: 600,
+      fontSize: "14px",
+      margin: '0px',
+    },
+    "& p":{
+      color: "#9da1ac",
+      fontWeight: 500,
+      fontSize: "12px",
+      margin: '0px 0px',
+    }
+  },
+  kycLevelWrap:{
+    '& b':{
+      color: "#000000",
+      fontWeight: 600,
+      fontSize: "13px",
+    },
+    '& span':{
+      color: "#000000",
+      fontWeight: 400,
+      fontSize: "13px",
+    }
   }
 });
 
@@ -274,6 +307,8 @@ const Applicants = () => {
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
   const [selectedKycFlow, setSelectedKycFlow] = useState('')
+  const [cardMobilTable, setCardMobilTable] = useState([2,3,4,4,5])
+  // const cardMobilTable = [2,3,4,5]
 
   const handleApplicantDialogOpen = () => {
     setApplicantDialog(true);
@@ -417,158 +452,202 @@ const Applicants = () => {
       {/* </Box> */}
 
       <Box className={classes.tableWrapper}>
-        <Box sx={{ width: "100%" }}>
-          {/* <EnhancedTableToolbar numSelected={selected.length} /> */}
-          <TableContainer>
-            <Table
-              sx={{ minWidth: 750 }}
-              aria-labelledby="tableTitle"
-              // size={dense ? 'small' : 'medium'}
-            >
-              <TableHead>
-                <TableRow sx={{ borderRadius: "20px" }}>
-                  <StyledTableCell>
-                    <Checkbox
-                      color="primary"
-                      checked={false}
-                      // inputProps={{
-                      //   "aria-labelledby": labelId,
-                      // }}
-                    />
-                  </StyledTableCell>
-                  <StyledTableCell align="left">Name</StyledTableCell>
-                  <StyledTableCell align="left">
-                    Required document
-                  </StyledTableCell>
-                  <StyledTableCell align="left">Status</StyledTableCell>
-                  <StyledTableCell align="left">Action</StyledTableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {rows.map((row: any, index: number) => {
-                  const isItemSelected = isSelected(row.id);
-                  const labelId = `enhanced-table-checkbox-${index}`;
+        {fullScreen ? (
+            cardMobilTable.map((item:any) => (
+              <Box className={classes.tableCard}>
+              <Box sx={{display: 'flex', justifyContent: 'space-between'}}>
+              <h5>
+                [Applicant Name] <br />
+                ID: 98932be8f3889807003h3
+              </h5>
+              <MoreVertIcon sx={{color: '#465679'}} />
+              </Box>
+              <p>India • June 26, 2024 , 3:32 PM (GM +5:30) </p>
+              <Box className={classes.kycLevelWrap}>
+                <b>Level:</b> <span>Basic -kyc-level</span>
+              </Box>
+  
+              <Box
+                sx={{
+                  display: "inline-flex",
+                  alignItems: "center",
+                  gap: "10px",
+                  backgroundColor: "#BDEFFF",
+                  padding: "7px 12px",
+                  borderRadius: "100px",
+                  marginBottom: "7px",
+                  marginTop: '15px',
+                }}
+              >
+                <Clock style={{ color: "#06495F" }} width="14px" />{" "}
+                <h4
+                  style={{
+                    color: "#06495F",
+                    fontWeight: 600,
+                    fontSize: "14px",
+                    margin: "0px",
+                  }}
+                >
+                  Document requested
+                </h4>
+              </Box>
+  
+              <p>Checked : June 26, 2024 , 3:32 PM (GM +5:30)</p>
+            </Box>
+            ))
+        ) : (
+          <Box sx={{ width: "100%" }}>
+            {/* <EnhancedTableToolbar numSelected={selected.length} /> */}
+            <TableContainer>
+              <Table
+                sx={{ minWidth: 750 }}
+                aria-labelledby="tableTitle"
+                // size={dense ? 'small' : 'medium'}
+              >
+                <TableHead>
+                  <TableRow sx={{ borderRadius: "20px" }}>
+                    <StyledTableCell>
+                      <Checkbox
+                        color="primary"
+                        checked={false}
+                        // inputProps={{
+                        //   "aria-labelledby": labelId,
+                        // }}
+                      />
+                    </StyledTableCell>
+                    <StyledTableCell align="left">Name</StyledTableCell>
+                    <StyledTableCell align="left">
+                      Required document
+                    </StyledTableCell>
+                    <StyledTableCell align="left">Status</StyledTableCell>
+                    <StyledTableCell align="left">Action</StyledTableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {rows.map((row: any, index: number) => {
+                    const isItemSelected = isSelected(row.id);
+                    const labelId = `enhanced-table-checkbox-${index}`;
 
-                  return (
-                    <TableRow
-                      hover
-                      onClick={(event) => handleClick(event, row.id)}
-                      role="checkbox"
-                      aria-checked={isItemSelected}
-                      tabIndex={-1}
-                      key={row.id}
-                      selected={isItemSelected}
-                      sx={{ cursor: "pointer" }}
-                      className={classes.tableRow}
-                    >
-                      <TableCell
-                        padding="checkbox"
-                        sx={{ verticalAlign: "top", paddingTop: "8px" }}
+                    return (
+                      <TableRow
+                        hover
+                        onClick={(event) => handleClick(event, row.id)}
+                        role="checkbox"
+                        aria-checked={isItemSelected}
+                        tabIndex={-1}
+                        key={row.id}
+                        selected={isItemSelected}
+                        sx={{ cursor: "pointer" }}
+                        className={classes.tableRow}
                       >
-                        <Checkbox
-                          color="primary"
-                          checked={isItemSelected}
-                          inputProps={{
-                            "aria-labelledby": labelId,
-                          }}
-                        />
-                      </TableCell>
-                      <TableCell
-                        //   component="th"
-                        id={labelId}
-                        //   scope="row"
-                      >
-                        {/* {row.name} */}
-                        <b>[Applicant Name] </b> <br />
-                        <b>ID: 98932be8f3889807003h3</b> <br />
-                        <p>India</p>
-                        <p>Created : June 26, 2024 , 3:32 PM (GM +5:30)</p>
-                      </TableCell>
-                      <TableCell align="left">
-                        {/* {row.name} */}
-                        <Box className={classes.requiredDocumentWrapper}>
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            strokeWidth={1.5}
-                            stroke="#E1B002"
-                            className="size-6 id-card"
-                          >
-                            <path
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                              d="M15 9h3.75M15 12h3.75M15 15h3.75M4.5 19.5h15a2.25 2.25 0 0 0 2.25-2.25V6.75A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25v10.5A2.25 2.25 0 0 0 4.5 19.5Zm6-10.125a1.875 1.875 0 1 1-3.75 0 1.875 1.875 0 0 1 3.75 0Zm1.294 6.336a6.721 6.721 0 0 1-3.17.789 6.721 6.721 0 0 1-3.168-.789 3.376 3.376 0 0 1 6.338 0Z"
-                            />
-                          </svg>
+                        <TableCell
+                          padding="checkbox"
+                          sx={{ verticalAlign: "top", paddingTop: "8px" }}
+                        >
+                          <Checkbox
+                            color="primary"
+                            checked={isItemSelected}
+                            inputProps={{
+                              "aria-labelledby": labelId,
+                            }}
+                          />
+                        </TableCell>
+                        <TableCell
+                          //   component="th"
+                          id={labelId}
+                          //   scope="row"
+                        >
+                          {/* {row.name} */}
+                          <b>[Applicant Name] </b> <br />
+                          <b>ID: 98932be8f3889807003h3</b> <br />
+                          <p>India</p>
+                          <p>Created : June 26, 2024 , 3:32 PM (GM +5:30)</p>
+                        </TableCell>
+                        <TableCell align="left">
+                          {/* {row.name} */}
+                          <Box className={classes.requiredDocumentWrapper}>
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              fill="none"
+                              viewBox="0 0 24 24"
+                              strokeWidth={1.5}
+                              stroke="#E1B002"
+                              className="size-6 id-card"
+                            >
+                              <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                d="M15 9h3.75M15 12h3.75M15 15h3.75M4.5 19.5h15a2.25 2.25 0 0 0 2.25-2.25V6.75A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25v10.5A2.25 2.25 0 0 0 4.5 19.5Zm6-10.125a1.875 1.875 0 1 1-3.75 0 1.875 1.875 0 0 1 3.75 0Zm1.294 6.336a6.721 6.721 0 0 1-3.17.789 6.721 6.721 0 0 1-3.168-.789 3.376 3.376 0 0 1 6.338 0Z"
+                              />
+                            </svg>
 
-                          {/* <IdentificationIcon
+                            {/* <IdentificationIcon
                             color="#E1B002"
                             width="18px"
                             className="size-1 text-blue-500"
                             style={{ fontSize: "20px", width: "25px" }}
                           /> */}
-                          <SquareUserRound color="#23B589" />
-                        </Box>
-                        <b>Level:</b> <span>Basic -kyc-level</span>
-                      </TableCell>
-                      <TableCell align="left">
-                        {/* {row.requiredDocument} */}
-                        <Box
-                          sx={{
-                            display: "inline-flex",
-                            alignItems: "center",
-                            gap: "10px",
-                            backgroundColor: "#BDEFFF",
-                            padding: "7px 12px",
-                            borderRadius: "100px",
-                            marginBottom: "7px",
-                          }}
-                        >
-                          <Clock style={{ color: "#06495F" }} width="14px" />{" "}
-                          <h4
-                            style={{
-                              color: "#06495F",
-                              fontWeight: 600,
-                              fontSize: "14px",
-                              margin: "0px",
+                            <SquareUserRound color="#23B589" />
+                          </Box>
+                          <b>Level:</b> <span>Basic -kyc-level</span>
+                        </TableCell>
+                        <TableCell align="left">
+                          {/* {row.requiredDocument} */}
+                          <Box
+                            sx={{
+                              display: "inline-flex",
+                              alignItems: "center",
+                              gap: "10px",
+                              backgroundColor: "#BDEFFF",
+                              padding: "7px 12px",
+                              borderRadius: "100px",
+                              marginBottom: "7px",
                             }}
                           >
-                            Document requested
-                          </h4>
-                        </Box>
+                            <Clock style={{ color: "#06495F" }} width="14px" />{" "}
+                            <h4
+                              style={{
+                                color: "#06495F",
+                                fontWeight: 600,
+                                fontSize: "14px",
+                                margin: "0px",
+                              }}
+                            >
+                              Document requested
+                            </h4>
+                          </Box>
 
-                        <p>Checked : June 26, 2024 , 3:32 PM (GM +5:30)</p>
-                      </TableCell>
+                          <p>Checked : June 26, 2024 , 3:32 PM (GM +5:30)</p>
+                        </TableCell>
 
-                      <TableCell align="left">
-                        {/* {row.status} */}
-                        <Box
-                          sx={{
-                            display: "flex",
-                            alignItems: "center",
-                            justifyContent: "space-between",
-                          }}
-                        >
-                          <span
-                            style={{
-                              fontSize: "15px",
-                              fontWeight: 500,
-                              color: "var(--take-action)",
+                        <TableCell align="left">
+                          {/* {row.status} */}
+                          <Box
+                            sx={{
+                              display: "flex",
+                              alignItems: "center",
+                              justifyContent: "space-between",
                             }}
                           >
-                            Open
-                          </span>
-                          <EllipsisVertical color="#465679" />
-                        </Box>
-                      </TableCell>
-                    </TableRow>
-                  );
-                })}
-              </TableBody>
-            </Table>
-          </TableContainer>
-          {/* <TablePagination
+                            <span
+                              style={{
+                                fontSize: "15px",
+                                fontWeight: 500,
+                                color: "var(--take-action)",
+                              }}
+                            >
+                              Open
+                            </span>
+                            <EllipsisVertical color="#465679" />
+                          </Box>
+                        </TableCell>
+                      </TableRow>
+                    );
+                  })}
+                </TableBody>
+              </Table>
+            </TableContainer>
+            {/* <TablePagination
               rowsPerPageOptions={[5, 10, 25]}
               component="div"
               count={rows.length}
@@ -577,37 +656,42 @@ const Applicants = () => {
               onPageChange={handleChangePage}
               onRowsPerPageChange={handleChangeRowsPerPage}
             /> */}
-          {/* <FormControlLabel
+            {/* <FormControlLabel
             control={<Switch checked={dense} onChange={handleChangeDense} />}
             label="Dense padding"
           /> */}
 
-          <Box className={classes.paginationWrap}>
-            <Stack direction="row" spacing={2} sx={{ alignItems: "center" }}>
-              <b
-                style={{ fontSize: "14px", fontWeight: 600, color: "#09142F" }}
-              >
-                Show
-              </b>
-              <Avatar
-                className={`${classes.paginationAvatar} ${classes.paginationAvatarActive}`}
-              >
-                5
-              </Avatar>
-              <Avatar className={classes.paginationAvatar}>10</Avatar>
-              <Avatar className={classes.paginationAvatar}>20</Avatar>
-            </Stack>
+            <Box className={classes.paginationWrap}>
+              <Stack direction="row" spacing={2} sx={{ alignItems: "center" }}>
+                <b
+                  style={{
+                    fontSize: "14px",
+                    fontWeight: 600,
+                    color: "#09142F",
+                  }}
+                >
+                  Show
+                </b>
+                <Avatar
+                  className={`${classes.paginationAvatar} ${classes.paginationAvatarActive}`}
+                >
+                  5
+                </Avatar>
+                <Avatar className={classes.paginationAvatar}>10</Avatar>
+                <Avatar className={classes.paginationAvatar}>20</Avatar>
+              </Stack>
 
-            <Stack spacing={2}>
-              <Pagination
-                count={8}
-                variant="outlined"
-                color="primary"
-                style={{ color: "#1664FF" }}
-              />
-            </Stack>
+              <Stack spacing={2}>
+                <Pagination
+                  count={8}
+                  variant="outlined"
+                  color="primary"
+                  style={{ color: "#1664FF" }}
+                />
+              </Stack>
+            </Box>
           </Box>
-        </Box>
+        )}
       </Box>
 
       <Dialog

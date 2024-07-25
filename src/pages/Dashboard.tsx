@@ -8,7 +8,7 @@ import DashboardCard from "../components/DashboardCard";
 import MenuItem from "@mui/material/MenuItem";
 import InputLabel from "@mui/material/InputLabel";
 import FormControl from "@mui/material/FormControl";
-import Select from "react-select";
+import Select, { components } from "react-select";
 
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -18,6 +18,12 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import DashboarDeclineProcessBar from "../components/DashboarDeclineProcessBar";
+
+import 'react-date-range/dist/styles.css'; // main style file
+import 'react-date-range/dist/theme/default.css'; // theme css file
+import { Calendar, DateRangePicker } from 'react-date-range';
+import {Select as MuiSelect} from '@mui/material';
+import { addDays } from "date-fns";
 
 
 
@@ -201,12 +207,40 @@ const Dashboard = () => {
     ...calenderStaticOptions,
   ]);
   const [serviceTable, setServiceTable] = useState([...rows]);
+  const [dateRange, setDateRange] = useState([
+    {
+      startDate: new Date(),
+      endDate: addDays(new Date(), 7),
+      key: 'selection'
+    }
+  ]);
 
   const handleViewDemo = () => {};
+  const [age, setAge] = React.useState('');
+
+  const handleChange = (event: any) => {
+    setAge(event.target.value as string);
+  };
+
+  const handleSelectDateRange = (date:any) => {
+    console.log(date); // native Date object
+  }
 
   // const handleCardTypeChange = (event: SelectChangeEvent) => {
   //   setCardType(event.target.value as string);
   // };
+  const CustomOption = ({ innerProps, isDisabled }:any) => (
+    // !isDisabled ? (
+      <Box>
+        <div {...innerProps}>your component internals</div>
+      {/* <Calendar
+        date={new Date()}
+        onChange={handleSelectDateRange}
+      /> */}
+      </Box>
+    // ) : null;
+    )
+
   return (
     <Box className={classes.dashboardWrapper}>
       <Grid container spacing={2}>
@@ -321,20 +355,45 @@ const Dashboard = () => {
             <h3>Overview</h3>
           </Box>
           <Box sx={{ display: "flex", gap: "10px" }}>
-            <Select
+            {/* <Select
               className="basic-single"
               classNamePrefix="select"
               defaultValue={cardTypeOptions[0]}
               name="color"
               options={cardTypeOptions}
-            />
+            /> */}
             <Select
               className="basic-single"
               classNamePrefix="select"
-              defaultValue={calenderOptions[0]}
-              name="color"
-              options={calenderOptions}
+              // defaultValue={calenderOptions[0]}
+              // name="color"
+              // options={calenderOptions}
+              // options={CustomOption}
+              components={{ Option: CustomOption }}
             />
+            <FormControl fullWidth>
+  <InputLabel id="demo-simple-select-label">Age</InputLabel>
+  <MuiSelect
+    labelId="demo-simple-select-label"
+    id="demo-simple-select"
+    value={age}
+    label="Age"
+    onChange={handleChange}
+  >
+   
+{/* <DateRangePicker
+  // onChange={item => setDateRange([item.selection])}
+  // showSelectionPreview={true}
+  moveRangeOnFirstSelection={false}
+  months={2}
+  ranges={dateRange}
+  direction="horizontal"
+  preventSnapRefocus={true}
+  calendarFocus="backwards"
+/>; */}
+  </MuiSelect>
+</FormControl>
+          
           </Box>
         </Box>
         <Box
