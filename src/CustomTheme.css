@@ -22,7 +22,7 @@
 
   h2{
     font-size: 24px !important;
-    font-weight: 600 !important;
+    font-weight: 600;
   }
 
   p{

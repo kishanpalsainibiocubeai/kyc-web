@@ -11,7 +11,7 @@ const useStyles = makeStyles({
         '& p':{
             color: '#09142F',
             fontSize: "15px",
-            fontWeight: 500,
+            // fontWeight: 500,
             margin: '6px 0px',
         }
     }
@@ -43,12 +43,12 @@ const BorderLinearProgress = styled(LinearProgress)(() => ({
   return (
     <>
     <Grid container spacing={2} className={classes.cmpWrap}>
-      <Grid item xs={12} sm={5}>
+      <Grid item xs={12} sm={6}>
         <Box>
           <p>{props.barLabel}</p>
         </Box>
       </Grid>
-      <Grid item xs={12} sm={7} sx={{display: 'flex', alignItems: 'center', gap: '10px'}}><span style={{fontSize: '12px', fontWeight: 500, color: '#09142F'}}>{props.value}%</span>
+      <Grid item xs={12} sm={6} sx={{display: 'flex', alignItems: 'center', gap: '10px'}}><span style={{fontSize: '12px', fontWeight: 500, color: '#09142F'}}>{props.value}%</span>
         <Box sx={{ width: "100%",}}>
         <BorderLinearProgress variant="determinate" value={props.value} />
         </Box>

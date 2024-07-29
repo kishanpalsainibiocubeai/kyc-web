@@ -307,7 +307,7 @@ const Applicants = () => {
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
   const [selectedKycFlow, setSelectedKycFlow] = useState('')
-  const [cardMobilTable, setCardMobilTable] = useState([2,3,4,4,5])
+  const [cardMobilTable, setCardMobilTable] = useState([2,3,4,4,])
   // const cardMobilTable = [2,3,4,5]
 
   const handleApplicantDialogOpen = () => {
@@ -453,7 +453,7 @@ const Applicants = () => {
 
       <Box className={classes.tableWrapper}>
         {fullScreen ? (
-            cardMobilTable.map((item:any) => (
+            cardMobilTable.map((item:any, index) => (
               <Box className={classes.tableCard}>
               <Box sx={{display: 'flex', justifyContent: 'space-between'}}>
               <h5>
@@ -472,17 +472,17 @@ const Applicants = () => {
                   display: "inline-flex",
                   alignItems: "center",
                   gap: "10px",
-                  backgroundColor: "#BDEFFF",
+                  backgroundColor: `${index ===2 ? "#FFD6FD" : index === 3 ? "#FFCADA" : "#BDEFFF"}`,
                   padding: "7px 12px",
                   borderRadius: "100px",
                   marginBottom: "7px",
                   marginTop: '15px',
                 }}
               >
-                <Clock style={{ color: "#06495F" }} width="14px" />{" "}
+                <Clock style={{ color: `${index ===2 ? "#891A85" : index === 3 ? "#710022" : "#06495F"}` }} width="14px" />{" "}
                 <h4
                   style={{
-                    color: "#06495F",
+                    color: `${index ===2 ? "#891A85" : index === 3 ? "#710022" : "#06495F"}`,
                     fontWeight: 600,
                     fontSize: "14px",
                     margin: "0px",

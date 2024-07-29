@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Box } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import Grid from "@mui/material/Grid";
@@ -24,6 +24,10 @@ import 'react-date-range/dist/theme/default.css'; // theme css file
 import { Calendar, DateRangePicker } from 'react-date-range';
 import {Select as MuiSelect} from '@mui/material';
 import { addDays } from "date-fns";
+import { Padding } from "@mui/icons-material";
+import zIndex from "@mui/material/styles/zIndex";
+import { transform } from "typescript";
+import { Calendar as LucideCalendar} from "lucide-react";
 
 
 
@@ -47,6 +51,7 @@ const useStyles = makeStyles({
       color: "#09142F",
       fontSize: "16px",
       fontWeight: 500,
+      lineHeight: '22px',
       // lineHeight: '20px',
     },
   },
@@ -146,6 +151,44 @@ const useStyles = makeStyles({
       fontSize: "16px",
       fontWeight: 600,
     }
+  },
+  calenderWrapper:{
+    fontSize: '14px',
+    color: '#4F4E59',
+    position: 'relative',
+    backgroundColor: '#fff',
+    '& .lable':{
+      position: 'absolute',
+      zIndex: 1,
+      left: '12px',
+      top: '50%',
+      transform: 'translate(0px, -50%)',
+      fontWeight: 500,
+    },
+    '& #select-calender-wraper':{
+      height: '38px',
+      padding: '0px',
+      backgroundColor: '#fff',
+    },
+    '& svg':{
+      width: '18px',
+      color: '#4F4E59',
+      marginRight: '8px',
+      display: 'inline-block',
+      backgroundColor: '#fff',
+    }
+  },
+  zoneSelect:{
+    "& > div":{
+      fontSize: '14px',
+      color: '#4F4E59',
+      fontWeight: 500,
+    }
+  },
+  selectAndCalenderWrapper:{
+    '@media (max-width: 600px)': {
+      display: 'none !important',
+    }
   }
 });
 
@@ -172,7 +215,7 @@ const cardTypeStaticOptions: readonly ICardType[] = [
   { value: "pending", label: "Pending", color: "#00B8D9" },
 ];
 const calenderStaticOptions: readonly ICalenderType[] = [
-  { value: "all-time", label: "All Time" },
+  { value: "all-time", label: "All " },
   { value: "today", label: "Today" },
   { value: "yesterday", label: "Yesterday" },
   { value: "last-seven-days", label: "Last 7 Days" },
@@ -207,13 +250,18 @@ const Dashboard = () => {
     ...calenderStaticOptions,
   ]);
   const [serviceTable, setServiceTable] = useState([...rows]);
-  const [dateRange, setDateRange] = useState([
+  const [dateRange, setDateRange] = useState<any>([
     {
       startDate: new Date(),
       endDate: addDays(new Date(), 7),
       key: 'selection'
     }
   ]);
+
+  useEffect(() => {
+   console.log("dateRange :", dateRange)
+  }, [dateRange])
+  
 
   const handleViewDemo = () => {};
   const [age, setAge] = React.useState('');
@@ -354,15 +402,18 @@ const Dashboard = () => {
           <Box>
             <h3>Overview</h3>
           </Box>
-          <Box sx={{ display: "flex", gap: "10px" }}>
-            {/* <Select
+          <Box sx={{ display: "flex", gap: "10px" }} className={classes.selectAndCalenderWrapper}>
+            <Box sx={{minWidth: '100px', width: 'auto'}} className={classes.zoneSelect}>
+            <Select
               className="basic-single"
               classNamePrefix="select"
-              defaultValue={cardTypeOptions[0]}
+              defaultValue={calenderOptions[0]}
               name="color"
-              options={cardTypeOptions}
-            /> */}
-            <Select
+              options={calenderOptions}
+              
+            />
+            </Box>
+            {/* <Select
               className="basic-single"
               classNamePrefix="select"
               // defaultValue={calenderOptions[0]}
@@ -370,35 +421,37 @@ const Dashboard = () => {
               // options={calenderOptions}
               // options={CustomOption}
               components={{ Option: CustomOption }}
-            />
-            <FormControl fullWidth>
-  <InputLabel id="demo-simple-select-label">Age</InputLabel>
-  <MuiSelect
-    labelId="demo-simple-select-label"
-    id="demo-simple-select"
-    value={age}
-    label="Age"
-    onChange={handleChange}
-  >
-   
-{/* <DateRangePicker
-  // onChange={item => setDateRange([item.selection])}
-  // showSelectionPreview={true}
-  moveRangeOnFirstSelection={false}
-  months={2}
-  ranges={dateRange}
-  direction="horizontal"
-  preventSnapRefocus={true}
-  calendarFocus="backwards"
-/>; */}
-  </MuiSelect>
-</FormControl>
-          
+            /> */}
+            <Box sx={{minWidth: '120px'}}>
+            <FormControl fullWidth className={classes.calenderWrapper}>
+              {/* <InputLabel id="demo-simple-select-label">This month</InputLabel> */}
+              <label htmlFor="" className="lable">This month</label>
+              <MuiSelect
+                labelId="demo-simple-select-label"
+                id="select-calender-wraper"
+                value="This month"
+                // label="This month"
+                onChange={handleChange}
+                IconComponent={(props) => (<LucideCalendar />)}
+              >
+              <MenuItem value={10}>Ten</MenuItem>
+              <MenuItem value={20}>Twenty</MenuItem>
+                <DateRangePicker
+                  onChange={(item) => setDateRange([item.selection])}
+                  // showSelectionPreview={true}
+                  moveRangeOnFirstSelection={false}
+                  months={2}
+                  ranges={dateRange}
+                  direction="horizontal"
+                  preventSnapRefocus={true}
+                  calendarFocus="backwards"
+                />
+              </MuiSelect>
+            </FormControl>
+            </Box>
           </Box>
         </Box>
-        <Box
-          className={classes.overviewCardWrapper}
-        >
+        <Box className={classes.overviewCardWrapper}>
           <DashboardCard
             mainHeading="11,000"
             subHeading="Total Verifications"
@@ -438,7 +491,7 @@ const Dashboard = () => {
 
         <Box className={classes.dashboardFooterWrapper}>
           <Grid container spacing={2}>
-            <Grid item xs={12} md={8}> 
+            <Grid item xs={12} md={7}>
               <Box className={classes.serviceTableSection}>
                 <Box>
                   <h3>Services used</h3>
@@ -485,7 +538,7 @@ const Dashboard = () => {
                 </Box>
               </Box>
             </Grid>
-            <Grid item xs={12} md={4}>
+            <Grid item xs={12} md={5}>
               <Box className={classes.popularDecline}>
                 <Box>
                   <h3>Most popular declined reasons </h3>
@@ -497,7 +550,7 @@ const Dashboard = () => {
                   <Box
                     sx={{
                       padding: "0px 16px",
-                      paddingTop: '10px',
+                      paddingTop: "10px",
                     }}
                   >
                     <DashboarDeclineProcessBar
