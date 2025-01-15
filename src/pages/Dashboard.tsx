@@ -589,3 +589,6 @@ const Dashboard = () => {
 };
 
 export default Dashboard;
+
+
+// 1) As discussed we have to procced kyc in mobile or in web
